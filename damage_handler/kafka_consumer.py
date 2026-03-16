@@ -36,11 +36,11 @@ class KafkaConsumer:
                 value = msg.value().decode("utf-8")
                 try:
                     data = json.loads(value)
-                    print(data)
+                    return data
                 except JSONDecodeError as e:
                     log_event("ERROR", f"error: {e}")
                     try:
-                        print(value)
+                        return value
                     except Exception as e:
                         print(f"error: {e}")
 

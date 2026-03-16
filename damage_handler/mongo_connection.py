@@ -9,10 +9,10 @@ class MongoConnection:
         self.db = self.client["target_bank_db"]
         self.collection = self.db["target_bank_collection"]
 
-    def find_in_mongo_by_entity_id(self, entity_id):
-        self.collection.find_one({"entity_id": entity_id})
+    def find_in_mongo_by_attack_id(self, attack_id):
+        self.collection.find_one({"signal_id": attack_id})
 
 
-    def update_mongo_by_entity_id(self, entity_id, document):
-        self.collection.update_one({"entity_id": entity_id}, document)
+    def update_mongo_by_attack_id(self, attack_id, document):
+        self.collection.update_one({"attack_id": attack_id}, document)
         log_event("INFO", "updated attack report to mongo")
