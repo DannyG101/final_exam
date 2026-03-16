@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+from logger import log_event
 
 
 
@@ -14,6 +15,8 @@ class MongoConnection:
 
     def write_to_mongo(self, document):
         self.collection.insert_one(document)
+        log_event("INFO", "sent report to mongo")
 
     def update_mongo_by_signal_id(self, signal_id, document):
         self.collection.update_one({"signal_id": signal_id}, document)
+        log_event("INFO", "updated report to mongo")

@@ -16,16 +16,13 @@ class Orchestrator:
         if report_status["status"] == False:
             invalid_report = {"report": report_status["report"], "error": report_status["error"]}
             self.publisher.produce(invalid_report)
-            print("sent_to_kafka")
         elif report_status["status"] == True:
             valid_report = report_status["report"]
             signal_id = valid_report["signal_id"]
             if self.mongo_connection.find_in_mongo_by_signal_id(signal_id):
                 self.mongo_connection.update_mongo_by_signal_id(signal_id, valid_report)
-                print("updated_mongo")
             else:
                 self.mongo_connection.write_to_mongo(valid_report)
-                print("wrote to mongo")
 
     def run(self):
         while True:
