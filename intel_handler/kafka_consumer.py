@@ -30,7 +30,7 @@ class KafkaConsumer:
                 if msg is None:
                     continue
                 if msg.error():
-                    log_event("ERROR", "Error:", msg.error())
+                    print("ERROR", "Error:", msg.error())
                     continue
 
                 value = msg.value().decode("utf-8")
