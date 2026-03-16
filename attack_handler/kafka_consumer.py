@@ -20,7 +20,6 @@ class KafkaConsumer:
 
         consumer.subscribe([self.topic])
 
-        print(f"Consumer running and subscribed to {self.topic}")
         log_event("INFO", f"Consumer running and subscribed to {self.topic}")
 
         try:
@@ -35,11 +34,11 @@ class KafkaConsumer:
                 value = msg.value().decode("utf-8")
                 try:
                     data = json.loads(value)
-                    print(data)
+                    return data
                 except JSONDecodeError as e:
                     log_event("ERROR", f"error: {e}")
                     try:
-                        print(value)
+                        return value
                     except Exception as e:
                         print(f"error: {e}")
 
@@ -48,4 +47,5 @@ class KafkaConsumer:
 
         finally:
             consumer.close()
+
 
