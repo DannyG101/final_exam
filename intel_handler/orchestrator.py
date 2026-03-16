@@ -5,7 +5,7 @@ class Orchestrator:
         self.consumer = consumer
 
     def handle_single_event(self):
-        data = self.consumer.consume()
+        self.consumer.consume()
 
     def run(self):
         while True:
