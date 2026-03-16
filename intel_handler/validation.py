@@ -13,10 +13,16 @@ class Report(BaseModel):
     signal_type : str
     priority_level : Optional[int] = 99
 
-def validate_report(report):
-    try:
-        report_check = Report(**report)
-        return True, report_check.model_dump()
-    except Exception as e:
-        return False, str(e)
+
+class Validator:
+
+    @staticmethod
+    def validate_report(report):
+        try:
+            report_check = Report(**report)
+            return {"status": True, "report": report_check.model_dump()}
+        except Exception as e:
+            return {"status": False, "report": report, "error": str(e)}
+
+
 
