@@ -38,6 +38,11 @@ class KafkaConsumer:
                     print(data)
                 except JSONDecodeError as e:
                     print(f"error: {e}")
+                    print("trying to print as is")
+                    try:
+                        print(value)
+                    except Exception as e:
+                        print(f"error: {e}")
 
         except KeyboardInterrupt:
             # self.logger.info("consumer stopped")
