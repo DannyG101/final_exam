@@ -1,5 +1,8 @@
 from kafka_consumer import KafkaConsumer
+from intel_handler_config import IntelHandlerConfig
 
-consumer = KafkaConsumer("localhost:9092", "intel", "intel_handler")
+config = IntelHandlerConfig()
+
+consumer = KafkaConsumer(config.kafka_bootstrap_servers, "intel", "intel_handler")
 
 consumer.consume()

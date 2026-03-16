@@ -2,6 +2,7 @@ from json import JSONDecodeError
 
 from confluent_kafka import Consumer
 import json
+from logger import log_event
 
 class KafkaConsumer:
     def __init__(self, bootstrap_servers, topic, group_id):
@@ -21,7 +22,7 @@ class KafkaConsumer:
         consumer.subscribe([self.topic])
 
         print(f"Consumer running and subscribed to {self.topic}")
-        # self.logger.info(f"Consumer running and subscribed to {self.topic}")
+        log_event("INFO", f"Consumer running and subscribed to {self.topic}")
 
         try:
             while True:
@@ -29,7 +30,7 @@ class KafkaConsumer:
                 if msg is None:
                     continue
                 if msg.error():
-                    # self.logger.error("Error:", msg.error())
+                    log_event("ERROR", "Error:", msg.error())
                     continue
 
                 value = msg.value().decode("utf-8")
@@ -37,16 +38,14 @@ class KafkaConsumer:
                     data = json.loads(value)
                     print(data)
                 except JSONDecodeError as e:
-                    print(f"error: {e}")
-                    print("trying to print as is")
+                    log_event("ERROR", f"error: {e}")
                     try:
                         print(value)
                     except Exception as e:
                         print(f"error: {e}")
 
         except KeyboardInterrupt:
-            # self.logger.info("consumer stopped")
-            print("Keyboard stop")
+            log_event("ERROR", "consumer stopped")
 
         finally:
             consumer.close()
