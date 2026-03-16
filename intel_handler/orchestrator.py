@@ -12,7 +12,8 @@ class Orchestrator:
         report = self.consumer.consume()
         report_status = self.validator.validate_report(report)
         if report_status["status"] == False:
-            self.publisher.produce(report_status)
+            invalid_report = {"report": report_status["report"], "error": report_status["error"]}
+            self.publisher.produce(invalid_report)
             print("sent_to_kafka")
         elif report_status["status"] == True:
             print("this needs to get sent to mongo asap")
