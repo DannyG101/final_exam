@@ -16,7 +16,7 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
 
       KAFKA_LOG_DIRS: /tmp/kraft-combined-logs
@@ -39,6 +39,27 @@ services:
     container_name: mongo
     ports:
       - "27017:27017"
+
+  attack_handler:
+    build: attack_handler/
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      MONGO_URI:mongodb: //mongo:27017/
+
+  damage_handler:
+    build: damage_handler/
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      MONGO_URI:mongodb: //mongo:27017/
+
+  intel_handler:
+    build: intel_handler/
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      MONGO_URI:mongodb: //mongo:27017/
+
+  students:
+    build: students_part_1/
 
 
 
